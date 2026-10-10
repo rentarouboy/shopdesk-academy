@@ -1,0 +1,53 @@
+/* ShopDesk's midnight palette, isolated to the training simulator. */
+.tour-shade{position:absolute;z-index:5;background:#020d1c55;pointer-events:none;border-radius:13px}
+.theme-previews{flex-wrap:wrap}.theme-previews span{font-size:10px;max-width:calc(50% - 10px)}
+.simulator[data-theme=Midnight]{background:#07111f;border-color:#20394a;color:#d8e7ed}
+.simulator[data-theme=Midnight] .sim-sidebar{background:#061321;color:#a6bacb}
+.simulator[data-theme=Midnight] .sim-topbar{background:#0a1929;border-color:#1c3245;color:#90a7b8}
+.simulator[data-theme=Midnight] .crumb{color:#c4d9e3}
+.simulator[data-theme=Midnight] .sim-nav button{font-size:11px;min-height:39px;color:#a6bacb;background:transparent;border:0}
+.simulator[data-theme=Midnight] .sim-nav button.active{background:#103648;color:#67e8f9}
+.simulator[data-theme=Midnight] .sim-nav button.active span{color:#67e8f9}
+.simulator[data-theme=Midnight] .sim-nav button:hover{background:#112b3e}
+.simulator[data-theme=Midnight] .sim-page-title h2{color:#e5f2f5}
+.simulator[data-theme=Midnight] .sim-page-title .eyebrow{color:#64bac8}
+.simulator[data-theme=Midnight] .sim-page-title p{color:#8ca8b7;font-size:10px}
+.simulator[data-theme=Midnight] .stat,.simulator[data-theme=Midnight] .sim-panel{background:#0c1b2b;border-color:#1f354d}
+.simulator[data-theme=Midnight] .stat{font-size:10px;color:#8da8b7}
+.simulator[data-theme=Midnight] .stat strong{color:#e6f3f7;font-size:18px}
+.simulator[data-theme=Midnight] .stat-icon{color:#53d5e3;background:#103648}
+.simulator[data-theme=Midnight] .sim-panel h3{color:#dbeaf0;border-color:#1b3146;font-size:12px}
+.simulator[data-theme=Midnight] th{background:#0a1827;color:#91a9ba;font-size:10px}
+.simulator[data-theme=Midnight] td{border-color:#1b2d41;color:#c1d5df;font-size:11px}
+.simulator[data-theme=Midnight] td small{color:#85a0b0}
+.simulator[data-theme=Midnight] .chart{background:repeating-linear-gradient(to top,transparent 0,transparent 33px,#172c3b 34px,#172c3b 35px)}
+.simulator[data-theme=Midnight] .chart span{background:#278c9c}
+.simulator[data-theme=Midnight] .chart div:nth-child(6) span{background:#3ad1da}
+.simulator[data-theme=Midnight] .attention{border-color:#1b3146}
+.simulator[data-theme=Midnight] .attention strong{color:#cde0e9;font-size:11px}
+.simulator[data-theme=Midnight] .attention p{color:#89a1b0;font-size:10px}
+.simulator[data-theme=Midnight] .attention-icon{background:#3a3020;color:#e4bd71}
+.simulator[data-theme=Midnight] button{background:#10283a;border-color:#29445a;color:#bcd8e3;font-size:11px}
+.simulator[data-theme=Midnight] button:hover:not(:disabled){background:#16374b}
+.simulator[data-theme=Midnight] button.primary{background:#119ab0;border-color:#119ab0;color:#031a26}
+.simulator[data-theme=Midnight] input,.simulator[data-theme=Midnight] select{background:#0e2232;border-color:#315368;color:#d8e9f0;color-scheme:dark}
+.simulator[data-theme=Midnight] input[readonly],.simulator[data-theme=Midnight] select:disabled{background:#0a1927;color:#8aa5b6;border-color:#263d50}
+.simulator[data-theme=Midnight] .field{color:#b1c9d5}
+.simulator[data-theme=Midnight] .form-pane{background:#0d1f2e;border-color:#294559;color:#d7e8ed}
+.simulator[data-theme=Midnight] .form-note{background:#112e39;color:#9abac8}
+.simulator[data-theme=Midnight] .form-actions{border-color:#294559}
+.simulator[data-theme=Midnight] .status{background:#163b34;color:#90d8b7;font-size:9px}
+.simulator[data-theme=Midnight] .status.warn{background:#3b3121;color:#e5c184}
+.simulator[data-theme=Midnight] .balance,.simulator[data-theme=Midnight] .detail-panel{background:#102f37;border-color:#28565e;color:#a4dce0}
+.simulator[data-theme=Midnight] .detail-panel small{color:#89b1b5}
+.simulator[data-theme=Midnight] .product-picks>div,.simulator[data-theme=Midnight] .recommendation{border-color:#263f50}
+.simulator[data-theme=Midnight] .settings-tabs button.selected{background:#154450;color:#67e8f9;border-color:#2b6473}
+.simulator[data-theme=Midnight] .settings-tabs+.sim-panel>.field{border-color:#243b4e}
+.simulator[data-theme=Midnight] .inline-success,.simulator[data-theme=Midnight] .validation.valid{background:#163b34;color:#96d6b7}
+.simulator[data-theme=Midnight] .validation.invalid{background:#442a29;color:#f7b4a6}
+.simulator[data-theme=Midnight] .demo-tag{background:#0f333d;color:#7ae4db;border-color:#1c5962}
+.simulator[data-theme=Midnight] .image-placeholder{border-color:#44616b;color:#8baaba}
+.simulator[data-theme=Midnight] .receipt-sheet{background:#f9fbf8;color:#20382b}
+.simulator[data-theme=Midnight] .receipt-sheet td,.simulator[data-theme=Midnight] .receipt-sheet th{color:#20382b;background:#f9fbf8}
+.simulator[data-theme=Midnight] .tour-target{background:#123c48!important;color:#c0fff7!important;outline-color:#69ead8!important}
+@media(max-width:600px){.simulator[data-theme=Midnight] .sim-nav button{font-size:9px;min-height:36px}.simulator[data-theme=Midnight] .stat{font-size:9px}.simulator[data-theme=Midnight] .attention strong{font-size:10px}}
