@@ -8,7 +8,7 @@ export function validates(value,rule={type:'text'}) {
 }
 export class Guide {
  constructor(){this.state=demo();this.active=null;this.index=0;this.history=[];this.done=null;this.message=null;this.hint=false;}
- start(item){this.state=demo();this.state.business=item.business??'retail-service';this.state.import.kind=item.importKind??'products';this.state.screen=item.startingScreen;this.active=item;this.index=0;this.history=[];this.done=null;this.message=null;this.hint=false;}
+ start(item){this.state=demo();this.state.business=item.business??'retail';this.state.import.kind=item.importKind??'products';this.state.screen=item.startingScreen;this.active=item;this.index=0;this.history=[];this.done=null;this.message=null;this.hint=false;}
  get step(){return this.active?.steps[this.index];}
  get isGuided(){return !!this.active;}
  dispatch(action,mutate,value){
@@ -18,7 +18,7 @@ export class Guide {
   try{const candidate=clone(this.state),next=mutate(candidate);this.state=next&&Array.isArray(next.products)&&Array.isArray(next.orders)?next:candidate;}
   catch(error){this.message={key:error.message};return false;}
   this.message=null;
-  if(this.active){this.history.push(before);this.index++;this.hint=false;if(this.index===this.active.steps.length){this.done=this.active;this.active=null;this.state=demo();this.history=[];}else if(this.step.resetBefore){this.state=demo();this.state.business=this.active.business??'retail-service';}}
+  if(this.active){this.history.push(before);this.index++;this.hint=false;if(this.index===this.active.steps.length){this.done=this.active;this.active=null;this.state=demo();this.history=[];}else if(this.step.resetBefore){this.state=demo();this.state.business=this.active.business??'retail';}}
   return true;
  }
  previous(){if(!this.active||!this.history.length)return;this.state=this.history.pop();this.index--;this.message=null;this.hint=false;}

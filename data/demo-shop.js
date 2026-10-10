@@ -1,0 +1,44 @@
+// Fictional, deterministic training records. Never read a production data store.
+export const DEMO_DATE='2026-10-11';
+const names=['Rice & Grains','Flour & Atta','Pulses & Lentils','Cooking Oils','Spices & Masalas','Snacks','Biscuits','Beverages','Dairy','Bakery','Breakfast Foods','Instant Foods','Sauces & Condiments','Personal Care','Household Cleaning','Frozen Foods','Fruits & Vegetables','Dry Fruits','Baby Care','Pet Supplies'];
+const rows=[
+ ['Sona Masoori Rice 1 kg',0,80,45,3,5],['Toor Dal 1 kg',2,160,125,2,10],['Whole Wheat Atta 1 kg',1,58,44,48,10],['Sunflower Oil 1 L',3,145,125,1,4],
+ ['Basmati Rice 1 kg',0,135,108,32,8],['Full Cream Milk 500 ml',8,32,28,42,12],['Moong Dal 500 g',2,78,61,35,8],['Chana Dal 1 kg',2,96,76,28,6],
+ ['Groundnut Oil 1 L',3,185,156,24,6],['Granulated Sugar 1 kg',0,48,40,65,15],['Iodised Salt 1 kg',4,22,16,74,16],['Turmeric Powder 100 g',4,35,25,38,8],
+ ['Chilli Powder 100 g',4,42,31,34,8],['Coriander Powder 100 g',4,32,23,40,8],['Cumin Seeds 100 g',4,68,51,22,5],['Black Tea 250 g',7,115,88,27,6],
+ ['Instant Coffee 100 g',7,155,122,18,4],['Marie Biscuits 200 g',6,30,23,85,20],['Cream Biscuits 120 g',6,20,14,92,20],['Potato Chips 50 g',5,20,14,76,16],
+ ['Roasted Peanuts 200 g',5,45,33,44,10],['Instant Noodles 280 g',11,58,45,63,14],['Packaged Water 1 L',7,20,12,120,24],['Orange Drink 1 L',7,65,49,35,8],
+ ['Plain Curd 400 g',8,42,34,26,8],['Paneer 200 g',8,95,77,19,5],['Whole Wheat Bread 400 g',9,45,35,28,8],['Brown Bread 400 g',9,50,38,22,6],
+ ['Rolled Oats 500 g',10,110,84,25,6],['Corn Flakes 250 g',10,99,75,24,6],['Tomato Ketchup 500 g',12,85,64,30,7],['Mixed Pickle 300 g',12,75,56,23,5],
+ ['Bath Soap 100 g',13,38,28,72,16],['Toothpaste 150 g',13,90,67,45,10],['Shampoo 180 ml',13,125,93,32,8],['Laundry Detergent 1 kg',14,95,71,48,10],
+ ['Dishwash Liquid 500 ml',14,85,64,33,8],['Floor Cleaner 1 L',14,110,83,27,6],['Facial Tissues 100 sheets',13,65,46,28,6],['Frozen Green Peas 500 g',15,80,58,18,5],
+ ['Potatoes 1 kg',16,35,23,60,15],['Onions 1 kg',16,42,30,72,15],['Bananas 6 pieces',16,45,31,36,8],['Almonds 200 g',17,180,144,22,5],
+ ['Raisins 200 g',17,85,63,25,6],['Baby Wipes 72 pieces',18,130,98,20,5],['Cat Food 400 g',19,145,110,18,4],['Semolina 500 g',1,35,25,36,8]
+];
+export function groceryShop(){
+ const categories=names.map((name,i)=>({id:'cat-'+i,name,createdAt:'2026-09-01T09:00:00'}));
+ const supplierNames=['FreshMart Wholesale','South India Foods Supply','Green Basket Distributors','Metro Grocery Wholesale','Daily Needs Distribution'];
+ const products=rows.map(([name,cat,price,cost,stock,minStock],i)=>({id:'p'+(i+1),name,category:names[cat],categoryId:'cat-'+cat,price,cost,sellingPrice:price,purchasePrice:cost,stock,minStock,unit:'Pack',sku:'IKY-'+String(i+1).padStart(4,'0'),barcode:'200000'+String(i+1).padStart(6,'0'),barcodeFormat:'Code 128',supplier:supplierNames[i%5],expiryDate:cat===8?'2026-10-16':cat===9?'2026-10-15':'2027-05-30',expiryReminder:'2-days',updatedAt:'2026-10-11T08:00:00'}));
+ const customers=['Ravi Kumar','Priya Sharma','Arjun Kumar','Meena Stores','Karthik Traders','Ananya Foods','Lakshmi Nair','Suresh Babu'].map((name,i)=>({id:'c'+(i+1),name,phone:'00000 '+String(1001+i).padStart(5,'0'),email:'customer'+(i+1)+'@example.test',address:(i+12)+' Market Lane, Example Nagar',notes:'',credit:0}));
+ const sales=[];
+ function sale(id,date,customer,picks,payment,discount=0){const items=picks.map(([n,quantity])=>{const p=products[n-1];return {productId:p.id,productName:p.name,categoryId:p.categoryId,categoryName:p.category,quantity,unitPrice:p.price,unitCost:p.cost,total:p.price*quantity,profit:(p.price-p.cost)*quantity,unit:p.unit};});const subtotal=items.reduce((a,i)=>a+i.total,0),total=subtotal-discount;sales.push({id,date,items,subtotal,discountType:'fixed',discountValue:discount,discountAmount:discount,total,amount:total,profit:items.reduce((a,i)=>a+i.profit,0)-discount,paymentMethod:payment,payment,customerId:customer?.id,customerName:customer?.name??'',name:customer?.name??'',product:items.map(i=>i.productName).join(', '),quantity:items.reduce((a,i)=>a+i.quantity,0)});}
+ for(let day=1;day<=11;day++)for(let n=0;n<3;n++)sale('IKY-BILL-'+(1000+sales.length),'2026-10-'+String(day).padStart(2,'0')+'T'+(10+n*3)+':15:00',customers[(day+n)%8],[[10+((day+n)%10),2],[23,1]],['Cash','UPI','Card'][n],n===2?5:0);
+ sale('IKY-CREDIT-01','2026-10-03T12:00:00',customers[0],[[1,3],[18,4]],'Credit');
+ sale('IKY-CREDIT-02','2026-10-05T11:00:00',customers[1],[[16,4],[29,2]],'Credit');
+ sale('IKY-CREDIT-03','2026-10-07T15:00:00',customers[3],[[1,5],[10,5]],'Credit');
+ sale('IKY-CREDIT-04','2026-10-06T14:00:00',customers[2],[[18,4]],'Credit');
+ const repayments=[{id:'RP-01',customerId:'c1',name:'Ravi Kumar',amount:120,paymentMethod:'UPI',date:'2026-10-08T10:00:00',note:'Partial repayment'},{id:'RP-02',customerId:'c3',name:'Arjun Kumar',amount:120,paymentMethod:'Cash',date:'2026-10-09T12:00:00',note:'Full settlement'}];
+ for(const c of customers)c.credit=sales.filter(s=>s.paymentMethod==='Credit'&&s.customerId===c.id).reduce((a,s)=>a+s.total,0)-repayments.filter(r=>r.customerId===c.id).reduce((a,r)=>a+r.amount,0);
+ const orders=[{id:'IKY-PO-1001',supplier:supplierNames[0],status:'Partially Received',date:'2026-10-08',arrival:'2026-10-13',amount:450,paid:150,notes:'Second rice delivery expected Tuesday',items:[{id:'p1',quantity:10,received:2,applied:2,cost:45}]},{id:'IKY-PO-1002',supplier:supplierNames[2],status:'Ordered',date:'2026-10-10',arrival:'2026-10-12',amount:1540,paid:500,notes:'Dairy and bakery morning delivery',items:[{id:'p6',quantity:30,received:0,applied:0,cost:28},{id:'p27',quantity:20,received:0,applied:0,cost:35}]},{id:'IKY-PO-0998',supplier:supplierNames[3],status:'Received',date:'2026-10-01',arrival:'2026-10-03',amount:980,paid:980,notes:'Received and paid',items:[{id:'p18',quantity:20,received:20,applied:20,cost:23},{id:'p23',quantity:40,received:40,applied:40,cost:13}]}];
+ const suppliers=supplierNames.map((name,i)=>({id:'supplier-'+i,name,phone:'00000 '+String(2001+i).padStart(5,'0'),email:'supply'+i+'@example.test',address:(30+i)+' Wholesale Road, Example Nagar',productsSupplied:products.filter(p=>p.supplier===name).map(p=>p.name).join(', '),outstandingAmount:i===1?350:0,notes:''}));
+ return {categories,products,customers,suppliers,sales,repayments,orders,
+  services:[{id:'job-1',name:'Bulk grocery packing',customer:'Meena Stores',amount:150,status:'Completed',date:'2026-10-09',description:'Pack 12 grocery kits',paymentConfirmed:true},{id:'job-2',name:'Home delivery',customer:'Priya Sharma',amount:40,status:'Ready',date:DEMO_DATE,description:'Evening grocery delivery'},{id:'job-3',name:'Bulk grocery packing',customer:'Ananya Foods',amount:100,status:'Pending',date:DEMO_DATE,description:'Weekly pantry packs'}],
+  serviceTypes:[{name:'Home delivery',category:'Grocery services',price:40},{name:'Bulk grocery packing',category:'Grocery services',price:100}],
+  expenses:[{id:'ex-1',name:'Shop rent',category:'Rent',amount:9000,payment:'UPI',date:'2026-10-01'},{id:'ex-2',name:'Electricity',category:'Utilities',amount:1450,payment:'UPI',date:'2026-10-04'},{id:'ex-3',name:'Wholesale transport',category:'Transport',amount:480,payment:'Cash',date:'2026-10-08'},{id:'ex-4',name:'Packaging bags',category:'Supplies',amount:260,payment:'Cash',date:'2026-10-09'}],
+  capital:[{id:'cap-1',name:'Initial grocery shop funding',amount:50000,date:'2026-09-01',note:'Opening investment'},{id:'cap-2',name:'Additional stock funding',amount:10000,date:'2026-10-01',note:'Festival restocking'}],
+  notes:[{id:'note-1',name:'FreshMart supplier payment',date:'2026-10-13',time:'10:00',details:'Review remaining rice-order balance',done:false},{id:'note-2',name:'Rice and oil stock check',date:DEMO_DATE,time:'17:00',details:'Review low-stock recommendations',done:false},{id:'note-3',name:'Dairy expiry review',date:'2026-10-15',time:'09:00',details:'Inspect milk and curd expiry dates',done:false},{id:'note-4',name:'Packaging restocked',date:'2026-10-09',details:'Bags received',done:true}],
+  customOrders:[{id:'CO-101',customer:'Meena Stores',name:'Festival grocery hampers',quantity:12,amount:3600,status:'Ready',date:'2026-10-10'},{id:'CO-102',customer:'Ananya Foods',name:'Weekly pantry packs',quantity:6,amount:1500,status:'New',date:DEMO_DATE}],
+  history:[{id:'adj-1',date:'2026-10-07',name:products[22].name,previous:125,quantity:-5,newStock:120,reason:'Damaged',notes:'Damaged water bottles'},{id:'adj-2',date:'2026-10-08',name:products[0].name,previous:1,quantity:2,newStock:3,reason:'Supplier receiving',notes:'IKY-PO-1001'}],
+  settings:{name:'IKYZEN',owner:'RENTAROU_BOY',phone:'00000 00000',address:'12 Market Road, Example Nagar',currency:'₹',theme:'Midnight',tax:'No Tax',rate:0,businessType:'retail',businessLabel:'Grocery Store',background:'',transparency:18,profile:false,notifications:{stock:true,expiry:true,reminders:true,orders:true}}
+ };
+}

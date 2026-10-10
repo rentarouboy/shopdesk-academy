@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Learn ShopDesk by using it. Explore the interface and practice guided workflows in a safe training simulator.">
   <meta name="theme-color" content="#111c2d"><title>ShopDesk Academy</title>
-  <link rel="icon" href="./assets/shopdesk-cat.png" type="image/png"><link rel="stylesheet" href="./css/academy.css"><link rel="stylesheet" href="./css/midnight.css">
+  <link rel="icon" href="./assets/shopdesk-cat.png" type="image/png"><link rel="stylesheet" href="./css/academy.css"><link rel="stylesheet" href="./css/midnight.css"><link rel="stylesheet" href="./css/shopdesk-themes.css"><link rel="stylesheet" href="./css/shopdesk.css">
 </head>
 <body>
   <div id="loading" role="status"><div class="loading-track"><span></span><img src="./assets/shopdesk-cat.png" alt="" width="164" height="164" fetchpriority="high"></div><h1>ShopDesk Academy</h1><p id="loading-text"></p></div>
@@ -13,7 +13,7 @@
   <main id="main">
     <section id="home"></section>
     <section id="library" hidden></section>
-    <section id="simulator-section" aria-label="ShopDesk simulator"><div class="section-heading"><div><span class="eyebrow" data-i18n="THE PRACTICE WORKSPACE"></span><h2 data-i18n="Explore. Try. Understand."></h2></div><span class="mode-pill" id="mode"></span></div><div class="sim-layout"><div id="simulator" class="simulator"></div><aside id="guide" aria-live="polite" aria-atomic="true"></aside></div><p class="safety-caption" data-i18n="Practice data stays in memory and resets after every lesson."></p></section>
+    <section id="simulator-section" aria-label="ShopDesk simulator"><div class="section-heading"><div><span class="eyebrow" data-i18n="THE PRACTICE WORKSPACE"></span><h2 data-i18n="Explore. Try. Understand."></h2></div><div class="academy-tools"><span class="mode-pill" id="mode"></span><select id="practice-context" aria-label="Practice business type"><option value="retail">IKYZEN · Grocery</option><option value="retail-service">Retail + Service</option><option value="pc-gaming">PC Gaming</option></select><button id="expand-simulator" data-i18n="Expand workspace"></button></div></div><div class="sim-layout"><div id="simulator" class="simulator"></div><aside id="guide" aria-live="polite" aria-atomic="true"></aside></div><p class="safety-caption" data-i18n="Practice data stays in memory and resets after every lesson."></p></section>
   </main>
   <footer><span>ShopDesk Academy</span><span data-i18n="A safe place to learn your everyday workflow."></span><a href="#questions" data-i18n="Find an answer"></a></footer>
   <div id="toast" role="status" hidden></div>
