@@ -42,7 +42,7 @@ Opening stock belongs to the **new-product import**. Existing products are not o
 
 ```text
 index.html                 Academy shell and CAT loading screen
-assets/                    Original Academy-only SVG illustrations
+assets/                    User-provided ShopDesk cat artwork
 css/                       Responsive Academy and midnight simulator styles
 data/schema.js             Feature labels, fields, settings and themes
 data/questions/catalog.js  Questions, steps, targets and validation rules
@@ -65,7 +65,7 @@ Do not add timed completion or a generic Next button. Each step should correspon
 
 ## Source alignment
 
-Only end-user interface labels and behavior were inspected. The Academy implementation and CAT illustrations were written separately. The simulator follows the source's five-language set, settings sections, ten appearance themes, customer contact fields, credit workflows, supplier-per-order organization, and cumulative received-stock rules.
+Only end-user interface labels and behavior were inspected. The Academy implementation was written separately. The cat artwork is the exact image supplied by the user, reused in the loader, Home practice buddy, header, Explore help card, simulator sidebar, and favicon. The loader displays one full cat moving along the progress bar and respects reduced-motion preferences. Existing completion and feedback visuals use their original checkmark and stars. The simulator follows the source's five-language set, settings sections, ten appearance themes, customer contact fields, credit workflows, supplier-per-order organization, and cumulative received-stock rules.
 
 `saveOrder` applies `received total - previously applied total`, validates payments, and prevents removal of received product lines. Sample invoices retain current stock. Source application files were not modified or included in this repository.
 
