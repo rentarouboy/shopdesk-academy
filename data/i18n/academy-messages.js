@@ -2,6 +2,7 @@
 // Application labels use the same five-language set as ShopDesk.
 export const rows=`
 Inventory|இருப்பு|സ്റ്റോക്ക്|నిల్వ|भंडार
+Demo Stapler|Demo Stapler|Demo Stapler|Demo Stapler|Demo Stapler
 Demo Supplier|Demo Supplier|Demo Supplier|Demo Supplier|Demo Supplier
 Demo Paper Supply|Demo Paper Supply|Demo Paper Supply|Demo Paper Supply|Demo Paper Supply
 Light|ஒளி|പ്രകാശം|కాంతి|हल्का

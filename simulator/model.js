@@ -1,12 +1,13 @@
 export const clone = value => structuredClone(value);
 export const demo = () => ({
  screen:'dashboard', modal:null, tab:'Shop information', business:'retail-service', search:'', selected:[], multiple:false, inspected:null,
- products:[{id:'p1',name:'Demo Notebook',category:'Demo Stationery',stock:3,minStock:5,price:80,cost:45,sku:'DEMO-001'},{id:'p2',name:'Demo Pen',category:'Demo Stationery',stock:2,minStock:10,price:20,cost:10,sku:'DEMO-002'},{id:'p3',name:'Demo Folder',category:'Demo Stationery',stock:24,minStock:5,price:60,cost:30,sku:'DEMO-003'}],
+ products:[{id:'p1',name:'Demo Notebook',category:'Demo Stationery',stock:3,minStock:5,price:80,cost:45,sku:'DEMO-001'},{id:'p2',name:'Demo Pen',category:'Demo Stationery',stock:2,minStock:10,price:20,cost:10,sku:'DEMO-002'},{id:'p3',name:'Demo Folder',category:'Demo Stationery',stock:24,minStock:5,price:60,cost:30,sku:'DEMO-003'},{id:'p4',name:'Demo Stapler',category:'Demo Stationery',stock:1,minStock:4,price:100,cost:60,sku:'DEMO-004'}],
  categories:[{name:'Demo Stationery'}], customers:[{name:'Demo Customer',phone:'00000 00000',address:'Demo Town',credit:240}], suppliers:[{name:'Demo Supplier',phone:'00000 00000'},{name:'Demo Paper Supply',phone:'00000 00001'}],
  orders:[{id:'DEMO-ORDER',supplier:'Demo Supplier',status:'Partially Received',amount:450,paid:150,items:[{id:'p1',quantity:10,received:2,applied:2,cost:45}]}],
  sales:[{id:'DEMO-BILL',name:'Demo Customer',product:'Demo Notebook',quantity:2,amount:160,payment:'Cash'}], services:[{name:'Demo Repair',customer:'Demo Customer',amount:250,status:'Pending'}], expenses:[{name:'Demo Transport',amount:100}],capital:[{name:'Demo Investment',amount:5000}],notes:[{name:'Demo Reminder',date:'2026-10-15'}],history:[],gaming:[], settings:{name:'Demo Shop',owner:'Demo Owner',phone:'00000 00000',address:'Demo Town',currency:'₹',theme:'Midnight',tax:'No Tax',rate:0}, import:{format:'CSV',kind:'products',loaded:false,mapped:false,validated:false,confirmed:false,error:false}
 });
 export function resetSimulator() { return demo(); }
+export function lowStockRecommendations(state){return state.products.filter(product=>product.stock<=product.minStock&&!state.orders.some(order=>!['Received','Cancelled'].includes(order.status)&&order.items.some(line=>line.id===product.id)));}
 const numeric = (value,label,min=0) => {if(value==='' || value===undefined || !Number.isFinite(Number(value)) || Number(value)<min) throw new Error('Enter a valid amount or quantity.'); return Number(value);};
 export function saveOrder(state,draft) {
  if(!draft.supplier?.trim() || !draft.items.length) throw new Error('Choose a supplier and add a product.');
