@@ -120,3 +120,7 @@ body.workspace-expanded{overflow:hidden}.simulator-expanded{inset:12px;display:f
  .is-guided #guide{top:var(--academy-header-height,68px);scroll-margin-top:calc(var(--academy-header-height,68px) + 8px)}
 }
 @media(max-width:850px){.sd-financial-chart{min-width:720px}.sd-financial-chart text{font-size:16px}}
+@media(max-width:850px){
+ .simulator .sd-icon-button{width:44px;min-width:44px;padding:0;gap:0;flex-shrink:0}
+ .simulator .sd-header-page{flex:1;flex-basis:0}
+}
