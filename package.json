@@ -1,1 +1,1 @@
-{"name":"shopdesk-academy","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node scripts/serve.mjs","build":"node scripts/check.mjs","test":"node --test tests/model.test.mjs","test:browser":"node tests/browser.mjs"}}
+{"name":"shopdesk-academy","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node scripts/serve.mjs","build":"node scripts/check.mjs","test":"node --test tests/model.test.mjs","test:browser":"node tests/browser.mjs","test:responsive":"node tests/responsive.mjs"}}

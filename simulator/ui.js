@@ -5,7 +5,7 @@ export const text=(key,params)=>html(t(key,params??(key.includes('{0}, excluding
 export const icon=name=>icons[name]??icons.Boxes;
 export const money=n=>'₹'+Number(n??0).toLocaleString('en-IN',{maximumFractionDigits:2});
 export const button=(action,label,extra='',raw=false)=>`<button type="button" data-action="${html(action)}" data-target="${html(action)}" ${extra}>${raw?html(label):text(label)}</button>`;
-export const table=(headers,rows,width=850)=>`<div class="table-wrap"><table style="min-width:${width}px"><thead><tr>${headers.map(h=>`<th>${text(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}" class="empty">${text('No matching records.')}</td></tr>`}</tbody></table></div>`;
+export const table=(headers,rows,width=850)=>`<div class="table-wrap" tabindex="0" role="region" aria-label="${headers.map(h=>text(h)).join(' / ')}"><table style="min-width:${width}px"><thead><tr>${headers.map(h=>`<th scope="col">${text(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}" class="empty">${text('No matching records.')}</td></tr>`}</tbody></table></div>`;
 export const panel=(title,body)=>`<section class="sd-card"><div class="sd-card-heading"><h3>${text(title)}</h3></div>${body}</section>`;
 export const field=(label,control)=>`<label class="field"><span>${text(label)}</span>${control}</label>`;
 export const badge=status=>`<span class="sd-badge ${['Completed','Received','Normal','Delivered'].includes(status)?'positive':['Critical','Cancelled'].includes(status)?'negative':'pending'}">${text(status)}</span>`;

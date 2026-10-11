@@ -88,4 +88,6 @@ Publish from the default branch's repository root using GitHub Pages. `.nojekyll
 
 ## Accessibility
 
-Semantic landmarks, labeled fields, native buttons and selects, visible focus, a skip link, keyboard-accessible navigation, progress announcements, and reduced-motion styling are included. On narrow screens, the application keeps its desktop structure inside a horizontally scrollable simulator; the page itself stays within the viewport.
+Semantic landmarks, labeled fields, native buttons and selects, visible focus, a skip link, keyboard-accessible navigation, progress announcements, and reduced-motion styling are included. On tablet and phone screens, the Academy uses a compact navigation disclosure and the ShopDesk sidebar becomes a keyboard-accessible drawer. The simulator content fits the screen; wide tables scroll in their own labeled regions. Dialogs stay within the visible workspace and adapt when the visible viewport changes. Guided instructions stay above the workspace and real highlighted actions open the drawer when needed. Desktop retains the 272 px sidebar and its 72 px collapsed mode.
+
+Run `npm run test:responsive` with the local preview running to exercise 1440, 1280, 1024, 768, 430, 390 and 360 px layouts, all simulator pages and forms, mobile workflows in five languages, every question and lesson at 360 px, keyboard focus, and a shortened mobile keyboard viewport. Chrome and Playwright are required, as for the existing browser suite. Browser screenshots and result logs go to the ignored `.qa/` directory.
