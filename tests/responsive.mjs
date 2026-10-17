@@ -1,3 +1,4 @@
+import {runStep} from './workflow.mjs';
 import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -17,16 +18,7 @@ async function noOverflow(label){assert.equal(await page.evaluate(()=>document.d
 async function drawer(open=true){const button=page.locator('[data-action="shell:toggle"]');if(await page.locator('.sim-sidebar').isVisible()!==open)await button.click();}
 async function nav(screen,width){if(width<=850)await drawer();await page.locator('.sim-nav [data-action="nav:'+screen+'"]').click();}
 async function dialogFits(label){const box=await page.locator('.sd-dialog').boundingBox(),size=page.viewportSize();assert.ok(box&&box.x>=0&&box.y>=0&&box.x+box.width<=size.width+1&&box.y+box.height<=size.height+1,label+' dialog bounds '+JSON.stringify(box));await noOverflow(label);assert.equal(await page.locator('.sim-main').getAttribute('inert'),'');}
-async function guidedStep(step){
- const target=page.locator('.tour-target').filter({visible:true}).first();await target.waitFor();assert.equal(await target.getAttribute('data-target'),step.target);
- const visible=await target.evaluate(n=>{const r=n.getBoundingClientRect();return r.right>0&&r.left<innerWidth&&r.bottom>64&&r.top<innerHeight;});assert.ok(visible,'Visible guided target '+step.target);
- if(await page.locator('.sd-dialog').count())await dialogFits(step.target);
- if(step.action.startsWith('field:')){
-  const key=step.action.slice(6),tag=await target.evaluate(n=>n.tagName.toLowerCase());
-  let value=String(step.validation?.value??({name:'Aarav Test Customer',phone:'00000 00000',address:'Demo Street',email:'practice@example.test',supplier:'FreshMart Wholesale',mapping:'correct','order-search':'freshmart',amount:'200',paid:'200',price:'80',cost:'40',stock:'5',minStock:'5',quantity:'1',date:'2026-10-20',minutes:'30',rate:'18',owner:'Practice Owner'}[key]??(key.startsWith('sold:')?'1':key==='discount'?'10':key==='transparency'?'25':key.startsWith('received:')?'5':key.startsWith('quantity:')?'12':'Practice value')));
-  if(tag==='select'){const options=await target.locator('option').evaluateAll(ns=>ns.filter(n=>n.value).map(n=>n.value));if(!options.includes(value))value=options[0];if(!step.validation?.value&&value===await target.inputValue())value=options.find(x=>x!==value)??value;await target.selectOption(value);}else{await target.fill(value);await target.press('Tab');}
- }else await target.click();
-}
+async function guidedStep(step){if(await page.locator('.sd-dialog').count())await dialogFits(step.target);await runStep(page,step);}
 try{
  for(const width of [1440,1280,1024,768,430,390,360]){
   await page.setViewportSize({width,height:width<=850?844:1000});await page.goto(base);await page.locator('#loading').waitFor({state:'hidden'});await noOverflow(width+' home');
@@ -48,25 +40,25 @@ try{
   await nav('sales-history',width);await page.locator('[data-action^="sale:detail:"]').first().click();await dialogFits(width+' receipt');await page.keyboard.press('Escape');
   await nav('inventory',width);await page.locator('[data-action^="barcode:"]').first().click();await dialogFits(width+' barcode');await page.keyboard.press('Escape');
   await page.locator('#practice-context').selectOption('pc-gaming');await nav('gaming',width);await noOverflow(width+' gaming');await page.locator('[data-action="open:gaming"]').click();await dialogFits(width+' gaming form');await page.keyboard.press('Escape');
-  await page.goto(base+'#questions');await page.locator('#question-search').pressSequentially('Ravi');assert.equal(await page.locator('#question-search').inputValue(),'Ravi');assert.ok(await page.locator('[data-start="customer-create"]').count());await page.locator('#question-search').fill('');
-  if(width<=850)await page.locator('#feature-filter summary').click();await page.locator('[data-filter="customers"]').click();assert.ok(await page.locator('[data-start="customer-create"]').count());await noOverflow(width+' filtered questions');
-  await page.locator('[data-start="customer-create"]').click();for(const step of questions.find(q=>q.id==='customer-create').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' customer workflow and reset');
-  await page.goto(base+'#lessons');await noOverflow(width+' lessons');assert.equal(await page.locator('.lesson-card').count(),22);
-  await page.locator('[data-start="lesson-products"]').click();for(const step of lessons.find(q=>q.id==='lesson-products').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' product lesson and reset');
+  await page.goto(base+'#questions');await page.locator('#question-search').pressSequentially('Ravi');assert.equal(await page.locator('#question-search').inputValue(),'Ravi');assert.ok(await page.locator('#library [data-start="customer-create"]').count());await page.locator('#question-search').fill('');
+  if(width<=850)await page.locator('#feature-filter summary').click();await page.locator('[data-filter="customers"]').click();assert.ok(await page.locator('#library [data-start="customer-create"]').count());await noOverflow(width+' filtered questions');
+  await page.locator('#library [data-start="customer-create"]').click();for(const step of questions.find(q=>q.id==='customer-create').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' customer workflow and reset');
+  await page.goto(base+'#lessons');await noOverflow(width+' lessons');assert.equal(await page.locator('.lesson-card').count(),lessons.length);
+  await page.locator('#library [data-start="lesson-products"]').click();for(const step of lessons.find(q=>q.id==='lesson-products').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' product lesson and reset');
  }
  await page.setViewportSize({width:360,height:844});
  for(const lang of ['en','ta','ml','te','hi']){
   await page.goto(base+'#questions');await page.locator('#language').selectOption(lang);
   for(const id of ['customer-create','order-create','import-products','settings-shop','receipt-view']){
-   const item=questions.find(q=>q.id===id);await page.locator('[data-start="'+id+'"]').click();for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass('360 '+lang+' '+id);await page.goto(base+'#questions');
+   const item=questions.find(q=>q.id===id);await page.locator('#library [data-start="'+id+'"]').click();for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass('360 '+lang+' '+id);await page.goto(base+'#questions');
   }
  }
  await page.locator('#language').selectOption('en');
  for(const item of [...questions,...lessons]){
-  await page.goto(base+'#'+(item.id.startsWith('lesson-')?'lessons':'questions'));await page.locator('[data-start="'+item.id+'"]').click();
+  await page.goto(base+'#'+(item.id.startsWith('lesson-')?'lessons':'questions'));await page.locator('#library [data-start="'+item.id+'"]').click();
   for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();assert.equal(await page.locator('.tour-target').count(),0);await noOverflow('360 '+item.id);pass('360 workflow '+item.id);
  }
- await page.goto(base+'#questions');await page.locator('[data-start="customer-create"]').click();await page.locator('.sim-nav [data-action="nav:inventory"]').click();assert.ok(await page.locator('.guide-error').innerText());assert.equal(await page.locator('.tour-target').getAttribute('data-target'),'nav:customers');await page.keyboard.press('Escape');assert.equal(await page.locator('.sim-sidebar').isVisible(),false);await drawer();await page.locator('.tour-target').click();await page.locator('.tour-target').click();await page.locator('.tour-target').fill('Keyboard customer');
+ await page.goto(base+'#questions');await page.locator('#library [data-start="customer-create"]').click();await page.locator('.sim-nav [data-action="nav:inventory"]').click();assert.ok(await page.locator('.guide-error').innerText());assert.equal(await page.locator('.tour-target').getAttribute('data-target'),'nav:customers');await page.keyboard.press('Escape');assert.equal(await page.locator('.sim-sidebar').isVisible(),false);await drawer();await page.locator('.tour-target').click();await page.locator('[data-guide=next]').click();await page.locator('.tour-target').click();await page.locator('[data-guide=next]').click();await page.locator('.tour-target').fill('Keyboard customer');
  await page.setViewportSize({width:360,height:480});await dialogFits('keyboard visible');const target=await page.locator('.tour-target').boundingBox();assert.ok(target.y>=0&&target.y+target.height<=480,'Field remains above keyboard');await page.locator('.sd-dialog').screenshot({path:'.qa/mobile-keyboard.png'});await page.setViewportSize({width:360,height:844});await page.locator('[data-guide="exit"]').click();pass('Wrong action, drawer reopening and shortened keyboard viewport');
  await page.goto(base+'#explore');await page.locator('#expand-simulator').click();await noOverflow('expanded mobile');await nav('customers',360);await page.locator('[data-action="open:customers"]').click();await dialogFits('expanded mobile');await page.keyboard.press('Escape');await page.keyboard.press('Escape');assert.equal(await page.locator('#expand-simulator').getAttribute('aria-pressed'),'false');pass('Expanded mobile workspace and Escape');
  assert.deepEqual(errors,[]);await fs.writeFile('.qa/responsive-results.json',JSON.stringify({base,passed,errors,verifiedAt:new Date().toISOString()},null,2));console.log('PASS '+passed.length+' responsive checks');

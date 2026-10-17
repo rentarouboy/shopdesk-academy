@@ -1,20 +1,23 @@
 import {groceryShop,DEMO_DATE} from '../data/demo-shop.js';
 export const clone = value => structuredClone(value);
-export const demo=()=>({screen:'dashboard',modal:null,tab:'Shop information',business:'retail',search:'',searches:{},categoryFilter:'all',selected:[],multiple:false,inspected:null,collapsed:false,includeSettled:false,orderTab:'active',reportTab:'overview',notesTab:'Upcoming',saleDraft:{quantities:{},payment:'Cash',name:'',discountType:'percentage',discount:0},gaming:[],...groceryShop(),import:{format:'CSV',kind:'products',loaded:false,mapped:false,validated:false,confirmed:false,error:false}});
+export const demo=()=>({screen:'dashboard',role:'regular',permissions:{},supplierPayments:[],saleReturns:[],purchaseReturns:[],quickBill:{format:'a4'},modal:null,tab:'Shop information',business:'retail',search:'',searches:{},categoryFilter:'all',selected:[],multiple:false,inspected:null,collapsed:false,includeSettled:false,orderTab:'active',reportTab:'overview',notesTab:'Upcoming',saleDraft:{quantities:{},payment:'Cash',name:'',discountType:'percentage',discount:0},gaming:[],...groceryShop(),import:{format:'CSV',kind:'products',loaded:false,mapped:false,validated:false,confirmed:false,error:false}});
 export function resetSimulator() { return demo(); }
 export function financialSummary(s){
- const sum=(list,key='amount')=>list.reduce((a,r)=>a+Number(r[key]??0),0),revenue=sum(s.sales),services=sum(s.services.filter(r=>r.status==='Completed')),expenses=sum(s.expenses),capital=sum(s.capital),credit=sum(s.customers,'credit'),payments=sum(s.orders,'paid'),purchaseCost=s.sales.reduce((a,sale)=>a+(sale.items??[]).reduce((b,i)=>b+i.unitCost*i.quantity,0),0);
- return {revenue,services,total:revenue+services,expenses,capital,credit,paid:payments,purchases:s.orders.reduce((a,o)=>a+o.items.reduce((b,i)=>b+i.applied*i.cost,0),0),payables:s.orders.reduce((a,o)=>a+Math.max(0,o.amount-o.paid),0)+sum(s.suppliers,'outstandingAmount'),profit:revenue+services-purchaseCost-expenses,available:capital+revenue+services-credit-expenses-payments,inventory:s.products.reduce((a,p)=>a+p.stock*p.cost,0)};
+ const sum=(list,key='amount')=>list.reduce((a,r)=>a+Number(r[key]??0),0),revenue=sum(s.sales)-sum(s.saleReturns??[],'total'),services=sum(s.services.filter(r=>r.status==='Completed')),expenses=sum(s.expenses),capital=sum(s.capital),credit=sum(s.customers,'credit'),payments=sum(s.orders,'paid'),purchaseCost=s.sales.reduce((a,sale)=>a+(sale.items??[]).reduce((b,i)=>b+i.unitCost*i.quantity,0),0);
+ return {revenue,services,total:revenue+services,expenses,capital,credit,paid:payments,purchases:s.orders.reduce((a,o)=>a+o.items.reduce((b,i)=>b+i.applied*i.cost,0),0),payables:s.orders.reduce((a,o)=>a+Math.max(0,o.amount-o.paid-(s.purchaseReturns??[]).filter(r=>r.orderId===o.id&&r.settlement==='balance').reduce((b,r)=>b+r.total,0)),0)+sum(s.suppliers,'outstandingAmount'),profit:revenue+services-purchaseCost+sum(s.saleReturns??[],'costRestored')-expenses,available:capital+revenue+services-credit-expenses-payments+(s.purchaseReturns??[]).filter(r=>r.settlement==='refund').reduce((a,r)=>a+r.total,0),inventory:s.products.reduce((a,p)=>a+p.stock*p.cost,0)};
 }
 // Keep date filters and cash movement tied to the same fictional business records.
 export function financialReport(s,from,to){
  const events=[],add=(date,amount,type)=>events.push({date:date.slice(0,10),amount,type});
  s.capital.forEach(r=>add(r.date,r.amount,'capital'));
- s.sales.forEach(r=>add(r.date,r.amount,r.paymentMethod==='Credit'?'credit-sale':'sale'));
+ s.sales.filter(r=>!(s.saleReturns??[]).some(ret=>ret.replacementSaleId===r.id)).forEach(r=>add(r.date,r.amount,r.paymentMethod==='Credit'?'credit-sale':'sale'));
  s.services.filter(r=>r.status==='Completed').forEach(r=>add(r.completedAt??r.date,r.amount,'sale'));
  s.expenses.forEach(r=>add(r.date,-r.amount,'expense'));
  s.repayments.forEach(r=>add(r.date,r.amount,'repayment'));
- s.orders.forEach(o=>add(o.date,-o.paid,'supplier-payment'));
+ s.orders.forEach(o=>add(o.date,-(o.paid-(s.supplierPayments??[]).filter(p=>p.orderId===o.id).reduce((a,p)=>a+p.amount,0)),'supplier-payment'));
+ (s.supplierPayments??[]).forEach(p=>add(p.date,-p.amount,'supplier-payment'));
+ (s.saleReturns??[]).forEach(r=>add(r.date,r.cashCollected-r.cashRefund,'returns'));
+ (s.purchaseReturns??[]).filter(r=>r.settlement==='refund').forEach(r=>add(r.date,r.total,'supplier-refund'));
  const range=events.filter(e=>e.date>=from&&e.date<=to),total=type=>range.filter(e=>e.type===type).reduce((a,e)=>a+Math.abs(e.amount),0);
  let available=events.filter(e=>e.date<from&&e.type!=='credit-sale').reduce((a,e)=>a+e.amount,0);
  const movement=[{date:from,available}],days=[...new Set(range.map(e=>e.date))].sort();
@@ -27,9 +30,9 @@ export function saveDailySale(state){
  if(!items.length)throw Error('Choose a product.');
  const customer=state.customers.find(c=>c.name===d.name);if(d.payment==='Credit'&&!customer)throw Error('Choose a customer for a credit sale.');
  const subtotal=items.reduce((a,i)=>a+i.total,0),discount=numeric(d.discount??0,'discount');if((d.discountType==='percentage'&&discount>100)||(d.discountType==='fixed'&&discount>subtotal))throw Error('Enter a valid amount or quantity.');
- const discountAmount=d.discountType==='percentage'?subtotal*discount/100:discount,total=subtotal-discountAmount;
+ const discountAmount=d.discountType==='percentage'?subtotal*discount/100:discount,taxAmount=state.settings.tax==='No Tax'?0:Math.round((subtotal-discountAmount)*Number(state.settings.rate??0))/100,total=Math.round((subtotal-discountAmount+taxAmount)*100)/100;
  const next=clone(state);for(const i of items)next.products.find(p=>p.id===i.productId).stock-=i.quantity;
- const sale={id:'IKY-PRACTICE-BILL',date:DEMO_DATE+'T16:00:00',items,subtotal,discountType:d.discountType,discountValue:discount,discountAmount,total,amount:total,paymentMethod:d.payment,payment:d.payment,customerId:customer?.id,customerName:d.name,name:d.name,quantity:items.reduce((a,i)=>a+i.quantity,0)};
+ const sale={id:'IKY-PRACTICE-BILL',date:DEMO_DATE+'T16:00:00',items,subtotal,taxAmount,taxRate:state.settings.rate,taxName:state.settings.tax,customerPhone:d.phone??'',discountType:d.discountType,discountValue:discount,discountAmount,total,amount:total,paymentMethod:d.payment,payment:d.payment,customerId:customer?.id,customerName:d.name,name:d.name,quantity:items.reduce((a,i)=>a+i.quantity,0)};
  next.sales.push(sale);if(d.payment==='Credit')next.customers.find(c=>c.id===customer.id).credit+=total;
  next.saleDraft={quantities:{},name:'',payment:'Cash',discountType:'percentage',discount:0};next.inspected='sale-saved';return next;
 }

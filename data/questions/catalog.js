@@ -1,3 +1,6 @@
+import {features} from '../schema.js';
+import {v401Questions,prepareCurriculum} from './v401.js';
+import {groceryShop} from '../demo-shop.js';
 export const questions=[
   {
     "id": "dashboard-overview",
@@ -3916,4 +3919,7 @@ export const questions=[
     "completion": "You completed the workflow successfully."
   }
 ];
-export const featureLabel=id=>({inventory:"Categories / Inventory","stock-adjustments":"Stock History",orders:"Custom Orders",products:"Products",categories:"Categories","daily-sales":"Daily Sales","sales-history":"Sales History",services:"Services",customers:"Customers","credit-customers":"Credit Customers",suppliers:"Suppliers","shop-orders":"Shop Orders",reports:"Reports",expenses:"Expenses",capital:"Capital Invested",notes:"Notes & Reminders",settings:"Settings",gaming:"PC Gaming",dashboard:"Dashboard",bills:"Bills / Receipts",backup:"Backup / Restore",import:"Import Assistant"}[id]??id);
+export const featureLabel=id=>({inventory:"Categories / Inventory","stock-adjustments":"Stock History",orders:"Custom Orders",products:"Products",categories:"Categories","daily-sales":"Daily Sales","sales-history":"Sales History",services:"Services",customers:"Customers","credit-customers":"Credit Customers",suppliers:"Suppliers","shop-orders":"Shop Orders",reports:"Reports",expenses:"Expenses",capital:"Capital Invested",notes:"Notes & Reminders",settings:"Settings",gaming:"PC Gaming",dashboard:"Dashboard",bills:"Bills / Receipts",backup:"Backup / Restore",import:"Import Assistant"}[id]??features.find(f=>f.id===id)?.label??id);
+
+questions.push(...v401Questions);
+prepareCurriculum(questions,groceryShop().products);

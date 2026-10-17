@@ -22,7 +22,9 @@ export const settingsTabs=['Shop information','Appearance','Language','Notificat
 export const navigation=[
  ['dashboard','Dashboard','LayoutDashboard'],['inventory','Categories / Inventory','Boxes'],['daily-sales','Daily Sales','ShoppingCart'],['sales-history','Sales History','History'],['services','Services','Wrench'],['customers','Customers','UsersRound'],['credit-customers','Credit Customers','WalletCards'],['suppliers','Suppliers','Truck'],['expenses','Expenses','CircleDollarSign'],['stock-adjustments','Stock History','SlidersHorizontal'],['capital','Capital Invested','WalletCards'],['notes','Notes & Reminders','ListTodo'],['shop-orders','Shop Orders','Truck'],['orders','Custom Orders','ClipboardList'],['gaming','PC Gaming','Gamepad2'],['reports','Reports','BarChart3'],['settings','Settings','Settings']
 ].map(([id,label,icon])=>({id,label,icon}));
-export function visibleNavigation(business){return navigation.filter(f=>!(['services'].includes(f.id)&&business==='retail')&&(f.id!=='gaming'||business==='pc-gaming'));}
+export const businessTypes=['retail','service','retail-service','food-bakery','fashion-clothing','electronics','beauty-salon','stationery','hardware','pc-gaming','other'];
+export function visibleNavigation(business){const service=['service','beauty-salon'].includes(business),retailOnly=['retail','food-bakery','fashion-clothing','stationery','hardware'].includes(business);return navigation.filter(f=>!(service&&['suppliers','stock-adjustments','shop-orders'].includes(f.id))&&!(retailOnly&&f.id==='services')&&!(['stationery','hardware'].includes(business)&&f.id==='orders')&&(f.id!=='gaming'||business==='pc-gaming'));}
+
 features.push({id:'stock-adjustments',label:'Stock History',icon:'↕'},{id:'orders',label:'Custom Orders',icon:'▣'});
 fields.products=[['name','Product name','text',true],['category','Category','category',true],['unit','Unit','unit'],['sku','SKU (optional)','text'],['expiryDate','Expiry date (optional)','date'],['barcode','Barcode (optional)','text'],['stock','Current stock','number',true],['minStock','Minimum stock','number',true],['price','Selling price','number',true],['cost','Purchase price','number'],['notes','Notes (optional)','text']];
 fields.stock=[['name','Product','productName',true],['quantity','Change','number',true],['reason','Reason','reason'],['notes','Note (optional)','text']];
@@ -36,3 +38,6 @@ fields.gaming=[['minutes','Duration (minutes)','number',true],['name','Station (
 fields.suppliers.splice(4,0,['productsSupplied','Products supplied','text'],['outstandingAmount','Opening supplier balance ({0}, excluding shop orders)','number']);
 
 fields.products.splice(5,0,['expiryReminder','Expiry reminder','expiryReminder']);
+
+navigation.push({id:'help',label:'Help',icon:'BookOpen'},{id:'updates',label:'Check for Updates',icon:'RefreshCw'});
+features.push(...[['supplier-payments','Supplier Payments','⇄'],['returns','Sales Returns & Exchanges','↶'],['purchase-returns','Purchase Returns','↩'],['permissions','Master Device Permissions','◇'],['help','Help','?'],['updates','Check for Updates','↥']].map(([id,label,icon])=>({id,label,icon})));
