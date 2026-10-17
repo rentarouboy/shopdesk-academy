@@ -1,4 +1,4 @@
-import {runStep} from './workflow.mjs';
+import {runStep,startExercise,exerciseButton,ready} from './workflow.mjs';
 import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -40,25 +40,25 @@ try{
   await nav('sales-history',width);await page.locator('[data-action^="sale:detail:"]').first().click();await dialogFits(width+' receipt');await page.keyboard.press('Escape');
   await nav('inventory',width);await page.locator('[data-action^="barcode:"]').first().click();await dialogFits(width+' barcode');await page.keyboard.press('Escape');
   await page.locator('#practice-context').selectOption('pc-gaming');await nav('gaming',width);await noOverflow(width+' gaming');await page.locator('[data-action="open:gaming"]').click();await dialogFits(width+' gaming form');await page.keyboard.press('Escape');
-  await page.goto(base+'#questions');await page.locator('#question-search').pressSequentially('Ravi');assert.equal(await page.locator('#question-search').inputValue(),'Ravi');assert.ok(await page.locator('#library [data-start="customer-create"]').count());await page.locator('#question-search').fill('');
-  if(width<=850)await page.locator('#feature-filter summary').click();await page.locator('[data-filter="customers"]').click();assert.ok(await page.locator('#library [data-start="customer-create"]').count());await noOverflow(width+' filtered questions');
-  await page.locator('#library [data-start="customer-create"]').click();for(const step of questions.find(q=>q.id==='customer-create').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' customer workflow and reset');
-  await page.goto(base+'#lessons');await noOverflow(width+' lessons');assert.equal(await page.locator('.lesson-card').count(),lessons.length);
-  await page.locator('#library [data-start="lesson-products"]').click();for(const step of lessons.find(q=>q.id==='lesson-products').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' product lesson and reset');
+  await page.goto(base+'#questions');await page.locator('#question-search').pressSequentially('Ravi');assert.equal(await page.locator('#question-search').inputValue(),'Ravi');assert.ok(await page.locator('#library [data-category=customers]').count());await page.locator('#question-search').fill('');
+  await page.locator('[data-category=customers]').click();assert.ok(await page.locator('#category-dialog [data-start=customer-create]').count());await page.keyboard.press('Escape');assert.ok(await page.locator('#library [data-category=customers]').count());await noOverflow(width+' filtered questions');
+  await startExercise(page,'customer-create');for(const step of questions.find(q=>q.id==='customer-create').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' customer workflow and reset');
+  await page.goto(base+'#lessons');await noOverflow(width+' lessons');assert.equal(await page.locator('.lesson-card').count(),0);assert.ok(await page.locator('.feature-bubble').count()>0);
+  await startExercise(page,'lesson-products');for(const step of lessons.find(q=>q.id==='lesson-products').steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass(width+' product lesson and reset');
  }
  await page.setViewportSize({width:360,height:844});
  for(const lang of ['en','ta','ml','te','hi']){
   await page.goto(base+'#questions');await page.locator('#language').selectOption(lang);
   for(const id of ['customer-create','order-create','import-products','settings-shop','receipt-view']){
-   const item=questions.find(q=>q.id===id);await page.locator('#library [data-start="'+id+'"]').click();for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass('360 '+lang+' '+id);await page.goto(base+'#questions');
+   const item=questions.find(q=>q.id===id);await startExercise(page,id);for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();pass('360 '+lang+' '+id);await page.goto(base+'#questions');
   }
  }
  await page.locator('#language').selectOption('en');
  for(const item of [...questions,...lessons]){
-  await page.goto(base+'#'+(item.id.startsWith('lesson-')?'lessons':'questions'));await page.locator('#library [data-start="'+item.id+'"]').click();
+  await page.goto(base+'#'+(item.id.startsWith('lesson-')?'lessons':'questions'));await startExercise(page,item.id);
   for(const step of item.steps)await guidedStep(step);await page.locator('.success-card').waitFor();assert.equal(await page.locator('.tour-target').count(),0);await noOverflow('360 '+item.id);pass('360 workflow '+item.id);
  }
- await page.goto(base+'#questions');await page.locator('#library [data-start="customer-create"]').click();await page.locator('.sim-nav [data-action="nav:inventory"]').click();assert.ok(await page.locator('.guide-error').innerText());assert.equal(await page.locator('.tour-target').getAttribute('data-target'),'nav:customers');await page.keyboard.press('Escape');assert.equal(await page.locator('.sim-sidebar').isVisible(),false);await drawer();await page.locator('.tour-target').click();await page.locator('[data-guide=next]').click();await page.locator('.tour-target').click();await page.locator('[data-guide=next]').click();await page.locator('.tour-target').fill('Keyboard customer');
+ await page.goto(base+'#questions');await startExercise(page,'customer-create');await page.locator('.sim-nav [data-action="nav:inventory"]').click();assert.ok(await page.locator('.guide-error').innerText());assert.equal(await page.locator('.tour-target').getAttribute('data-target'),'nav:customers');await page.keyboard.press('Escape');assert.equal(await page.locator('.sim-sidebar').isVisible(),false);await drawer();await page.locator('.tour-target').click();await ready(page);await page.locator('.tour-target').click();await ready(page);await page.locator('.tour-target').fill('Keyboard customer');
  await page.setViewportSize({width:360,height:480});await dialogFits('keyboard visible');const target=await page.locator('.tour-target').boundingBox();assert.ok(target.y>=0&&target.y+target.height<=480,'Field remains above keyboard');await page.locator('.sd-dialog').screenshot({path:'.qa/mobile-keyboard.png'});await page.setViewportSize({width:360,height:844});await page.locator('[data-guide="exit"]').click();pass('Wrong action, drawer reopening and shortened keyboard viewport');
  await page.goto(base+'#explore');await page.locator('#expand-simulator').click();await noOverflow('expanded mobile');await nav('customers',360);await page.locator('[data-action="open:customers"]').click();await dialogFits('expanded mobile');await page.keyboard.press('Escape');await page.keyboard.press('Escape');assert.equal(await page.locator('#expand-simulator').getAttribute('aria-pressed'),'false');pass('Expanded mobile workspace and Escape');
  assert.deepEqual(errors,[]);await fs.writeFile('.qa/responsive-results.json',JSON.stringify({base,passed,errors,verifiedAt:new Date().toISOString()},null,2));console.log('PASS '+passed.length+' responsive checks');

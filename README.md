@@ -24,7 +24,7 @@ npm test
 ## How practice works
 
 - **Explore:** navigate screens and open forms; all data-entry controls are read-only or disabled. Saving cannot create records.
-- **Guided practice:** only the current step's field accepts input. Real clicks, selections and valid field values complete the current action. Next Step or Enter then advances exactly once; incomplete actions cannot be skipped. Enter validates the focused input without submitting unrelated fields. Reading steps can advance directly. Wrong actions and empty fields do not advance it.
+- **Guided practice:** only the current step's field accepts input. Real clicks and valid selections automatically advance exactly one step. One Enter validates the focused text input and advances without submitting unrelated fields. Reading steps wait for the inline Got it / Continue button or Enter on the explanation. Incomplete actions cannot be skipped. Wrong actions and empty fields do not advance it.
 - **Previous:** restores a snapshot of the preceding step, including its screen and form.
 - **Restart / Exit / Completion:** rebuild the clean fictional demo state and discard temporary records. Multi-part lessons also start each exercise from a clean demo state.
 - **Languages:** English, Tamil, Malayalam, Telugu and Hindi translate navigation, catalogs, instructions, forms, settings, validation and success. Sample business names and source-file column names retain their original values.
@@ -66,7 +66,7 @@ tests/                     Model and real-browser regression checks
 
 Add a record to `data/questions/catalog.js` with a unique ID, feature, title, keywords, description, starting screen, completion message and an array of steps. Each step has an action, target, instruction, label and optional validation rule. Use existing actions or extend the simulator's event handler. Add the new message to **all five** JSON dictionaries, then run the checks and browser workflow.
 
-Every interaction step must validate an actual simulator action before Next Step or Enter can confirm it. Reading steps use an explicit read action. Never advance through a required action with an unvalidated generic Next click.
+Every interaction step must validate an actual simulator action before it advances. Reading steps use an explicit inline acknowledgement. Never advance through a required action without validation.
 
 ## ShopDesk v4.0.1 training
 
@@ -88,7 +88,11 @@ Publish from the default branch's repository root using GitHub Pages. `.nojekyll
 
 ## Learning engine and persistence
 
-`js/guide.js` owns validation, pending confirmation, route/target metadata, Previous, completion and resume. `js/progress.js` stores only Academy learning state. `data/questions/v401.js` upgrades legacy sales steps and adds supplier-payment, return/exchange, receipt, permissions and help/update exercises. `simulator/v401-model.js` applies fictional transactions; `simulator/v401-ui.js` renders their source-aligned controls. `css/learning.css` provides the learning dashboard, responsive Academy navigation and independent light/dark Academy appearances.
+`js/guide.js` owns validation, automatic advancement, route/target metadata, Previous, completion and resume. It consumes old pending-confirmation snapshots once without replaying their mutations. `js/progress.js` stores only Academy learning state. `data/questions/v401.js` upgrades legacy sales steps and adds supplier-payment, return/exchange, receipt, permissions and help/update exercises. `simulator/v401-model.js` applies fictional transactions; `simulator/v401-ui.js` renders their source-aligned controls. `css/learning.css` provides the learning dashboard, responsive Academy navigation and independent light/dark Academy appearances.
+
+Questions and Lessons start with shared feature bubbles based on the real navigation parents. `js/library.js` groups existing content, renders focused native-dialog popups and retains search, level filters and completion status. No exercise list is rendered until a category is opened.
+
+Run `npm run test:ux` for continuous advancement, one-Enter fields, duplicate events, legacy pending-progress migration, popup membership/focus/language changes and responsive target visibility. See [the UX update notes](docs/UX-UPDATE.md).
 
 Run `npm run test:learning` for keyboard gating, refresh/resume, completed-course indicators, both appearances and new workflows at seven widths. `npm test` includes model, new transaction and lesson-engine unit tests. `npm run build` also checks all native JavaScript syntax; the project has no TypeScript or compilation step.
 

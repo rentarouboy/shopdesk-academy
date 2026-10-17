@@ -820,5 +820,17 @@
   "YOUR SAFE PRACTICE SHOP": "உங்கள் பாதுகாப்பான பயிற்சிக் கடை",
   "You are using the latest version of ShopDesk.": "நீங்கள் ShopDesk இன் சமீபத்திய பதிப்பைப் பயன்படுத்துகிறீர்கள்.",
   "Your learning journey": "உங்கள் கற்றல் பயணம்",
-  "Your shop skills.": "உங்கள் கடைத் திறன்கள்."
+  "Your shop skills.": "உங்கள் கடைத் திறன்கள்.",
+  "Feature categories": "அம்ச வகைகள்",
+  "Choose a feature to find a guided exercise.": "வழிகாட்டும் பயிற்சியைக் காண ஓர் அம்சத்தைத் தேர்ந்தெடுக்கவும்.",
+  "{0} questions": "{0} கேள்விகள்",
+  "{0} lessons": "{0} பாடங்கள்",
+  "{0} completed": "{0} முடிக்கப்பட்டது",
+  "Close category": "வகையை மூடு",
+  "Back to features": "அம்சங்களுக்குத் திரும்பு",
+  "Got it / Continue": "புரிந்தது / தொடர்க",
+  "Follow the yellow outline. Enter a valid value, then press Enter.": "மஞ்சள் விளிம்பைப் பின்பற்றவும். சரியான மதிப்பை உள்ளிட்டு Enter அழுத்தவும்.",
+  "Read the guidance, then choose Got it / Continue.": "வழிகாட்டுதலைப் படித்து, புரிந்தது / தொடர்க என்பதைத் தேர்ந்தெடுக்கவும்.",
+  "{0} question": "{0} கேள்வி",
+  "{0} lesson": "{0} பாடம்"
 }

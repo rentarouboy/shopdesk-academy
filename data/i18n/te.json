@@ -820,5 +820,17 @@
   "YOUR SAFE PRACTICE SHOP": "మీ సురక్షిత సాధన దుకాణం",
   "You are using the latest version of ShopDesk.": "మీరు ShopDesk తాజా వెర్షన్‌ను ఉపయోగిస్తున్నారు.",
   "Your learning journey": "మీ అభ్యాస ప్రయాణం",
-  "Your shop skills.": "మీ దుకాణ నైపుణ్యాలు."
+  "Your shop skills.": "మీ దుకాణ నైపుణ్యాలు.",
+  "Feature categories": "ఫీచర్ విభాగాలు",
+  "Choose a feature to find a guided exercise.": "మార్గదర్శక అభ్యాసం కోసం ఒక ఫీచర్‌ను ఎంచుకోండి.",
+  "{0} questions": "{0} ప్రశ్నలు",
+  "{0} lessons": "{0} పాఠాలు",
+  "{0} completed": "{0} పూర్తయ్యాయి",
+  "Close category": "విభాగాన్ని మూసివేయండి",
+  "Back to features": "ఫీచర్లకు తిరిగి వెళ్లండి",
+  "Got it / Continue": "అర్థమైంది / కొనసాగించండి",
+  "Follow the yellow outline. Enter a valid value, then press Enter.": "పసుపు అంచును అనుసరించండి. సరైన విలువను ఇచ్చి Enter నొక్కండి.",
+  "Read the guidance, then choose Got it / Continue.": "సూచనలు చదివి అర్థమైంది / కొనసాగించండి ఎంచుకోండి.",
+  "{0} question": "{0} ప్రశ్న",
+  "{0} lesson": "{0} పాఠం"
 }

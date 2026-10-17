@@ -21,7 +21,7 @@ export function renderSimulator(g,{compact=false,menuOpen=false}={}){
    <button data-action="shell:search" data-target="shell:search" class="sd-header-search" aria-label="${text('Search')}">${icon('Search')}<span>${text('Search')}</span><kbd>Ctrl K</kbd></button>
    <button data-action="nav:daily-sales" data-target="header:record-sale" class="primary sd-record-sale">${icon('Plus')}${text('Record sale')}</button>
   </header>
-  <div class="sim-content">${g.step?.action.startsWith('read:')?`<article class="sd-card sd-pad reading-step" tabindex="0" data-target="${html(g.step.target)}"><h3>${text(g.step.label)}</h3><p>${text(g.step.explanation)}</p></article>`:''}${content(s,g)}${s.inspected&&!s.modal?`<div class="detail-panel" role="status">${text('Review')} · IKYZEN</div>`:''}</div>
+  <div class="sim-content">${g.step?.action.startsWith('read:')?`<article class="sd-card sd-pad reading-step" tabindex="0" data-target="${html(g.step.target)}"><h3>${text(g.step.label)}</h3><p>${text(g.step.explanation)}</p><button type="button" class="primary" data-guide="continue" data-reading-continue>${text('Got it / Continue')} ↵</button></article>`:''}${content(s,g)}${s.inspected&&!s.modal?`<div class="detail-panel" role="status">${text('Review')} · IKYZEN</div>`:''}</div>
  </div>
  ${s.modal?`<div class="sd-modal-backdrop"><section class="sd-dialog" role="dialog" aria-modal="${g.isGuided?'false':'true'}" aria-labelledby="form-title" tabindex="-1">${forms(s,g)}</section></div>`:''}`;
 }

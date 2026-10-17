@@ -820,5 +820,17 @@
   "YOUR SAFE PRACTICE SHOP": "നിങ്ങളുടെ സുരക്ഷിത പരിശീലനക്കട",
   "You are using the latest version of ShopDesk.": "നിങ്ങൾ ഏറ്റവും പുതിയ ShopDesk പതിപ്പാണ് ഉപയോഗിക്കുന്നത്.",
   "Your learning journey": "നിങ്ങളുടെ പഠനയാത്ര",
-  "Your shop skills.": "നിങ്ങളുടെ കടയിലെ കഴിവുകൾ."
+  "Your shop skills.": "നിങ്ങളുടെ കടയിലെ കഴിവുകൾ.",
+  "Feature categories": "ഫീച്ചർ വിഭാഗങ്ങൾ",
+  "Choose a feature to find a guided exercise.": "മാർഗനിർദേശമുള്ള പരിശീലനത്തിന് ഒരു ഫീച്ചർ തിരഞ്ഞെടുക്കുക.",
+  "{0} questions": "{0} ചോദ്യങ്ങൾ",
+  "{0} lessons": "{0} പാഠങ്ങൾ",
+  "{0} completed": "{0} പൂർത്തിയായി",
+  "Close category": "വിഭാഗം അടയ്ക്കുക",
+  "Back to features": "ഫീച്ചറുകളിലേക്ക് മടങ്ങുക",
+  "Got it / Continue": "മനസ്സിലായി / തുടരുക",
+  "Follow the yellow outline. Enter a valid value, then press Enter.": "മഞ്ഞ അതിർത്തി പിന്തുടരുക. ശരിയായ മൂല്യം നൽകി Enter അമർത്തുക.",
+  "Read the guidance, then choose Got it / Continue.": "നിർദേശം വായിച്ച് മനസ്സിലായി / തുടരുക തിരഞ്ഞെടുക്കുക.",
+  "{0} question": "{0} ചോദ്യം",
+  "{0} lesson": "{0} പാഠം"
 }

@@ -12,7 +12,8 @@ export class Guide {
  get step(){return this.active?.steps[this.index];}
  get isGuided(){return !!this.active;}
  prepare(){if(!this.pending&&this.step?.page)this.state.screen=this.step.page;if(this.step?.target.startsWith('nav:'))this.state.collapsed=false;}
- dispatch(action,mutate=()=>{},value){
+ dispatch(action,mutate=()=>{},value,expectedStep){
+  if(expectedStep&&expectedStep!==this.step?.id)return false;
   if(this.active&&this.pending)return false;
   if(this.active&&action!==this.step.action){this.message={key:'Not quite. Follow the highlighted action first.'};return false;}
   if(this.active&&this.step.validation&&!validates(value,this.step.validation)){this.message={key:'Check the highlighted field and try again.'};return false;}
@@ -32,7 +33,7 @@ export class Guide {
   this.store?.record(this);return true;
  }
  previous(){if(!this.active||!this.history.length)return;this.state=this.history.pop();if(!this.pending)this.index--;this.pending=false;this.message=null;this.hint=false;this.prepare();this.store?.record(this);}
- resume(items){const saved=this.store?.current,item=items.find(item=>item.id===saved?.id);if(!item||!Number.isInteger(saved.index)||saved.index<0||saved.index>=item.steps.length||!saved.state||!Array.isArray(saved.state.products)||!Array.isArray(saved.state.orders)||!Array.isArray(saved.history)||saved.history.length!==saved.index+(saved.pending?1:0))return false;this.active=item;this.index=saved.index;this.state=clone(saved.state);this.history=clone(saved.history);this.pending=!!saved.pending;this.done=null;this.message=null;this.prepare();return true;}
+ resume(items){const saved=this.store?.current,item=items.find(item=>item.id===saved?.id);if(!item||!Number.isInteger(saved.index)||saved.index<0||saved.index>=item.steps.length||!saved.state||!Array.isArray(saved.state.products)||!Array.isArray(saved.state.orders)||!Array.isArray(saved.history)||saved.history.length!==saved.index+(saved.pending?1:0))return false;this.active=item;this.index=saved.index;this.state=clone(saved.state);this.history=clone(saved.history);this.pending=!!saved.pending;this.done=null;this.message=null;if(this.pending&&!this.confirm)this.next();else this.prepare();return true;}
  restart(){if(this.active)this.start(this.active);else if(this.done)this.start(this.done);}
  exit(){this.state=demo();this.active=null;this.done=null;this.pending=false;this.history=[];this.index=0;this.message=null;this.store?.clearCurrent();}
 }
