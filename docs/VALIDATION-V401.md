@@ -1,4 +1,4 @@
-# Academy v4.0.1 validation
+# Academy validation archive
 
 This upgrade continues the Academy working tree based on `6f91b4524d20567c6e56f0a920bd666555508ddd`. It preserves the published responsive implementation and compact-toolbar refinements. The customer Windows/Android application, licensing, hosting services and historical releases were not modified. See [the source reference](V401-REFERENCE.md) for verified release evidence and the simulation's boundaries.
 
@@ -7,7 +7,7 @@ This upgrade continues the Academy working tree based on `6f91b4524d20567c6e56f0
 | Check | Result |
 | --- | --- |
 | Static/build validation | 78 Questions, 29 Lessons, 28 feature areas, 822 messages in each of five languages; native JavaScript syntax passed |
-| Unit tests | 28 passed, including six learning-engine and seven v4.0.1 transaction tests |
+| Unit tests | 28 passed, including six learning-engine and seven transaction tests |
 | Full browser curriculum | All 107 Questions/Lessons completed in English, Tamil, Malayalam, Telugu and Hindi: 535 complete workflows |
 | Browser regression groups | 546 unique checks across the five language runs; wrong actions, invalid inputs, search, navigation, temporary-record cleanup and browser errors checked |
 | Responsive suite | 386 checks passed at 1440, 1280, 1024, 768, 430, 390 and 360px; every Question/Lesson completed at 360px |
@@ -18,7 +18,7 @@ This upgrade continues the Academy working tree based on `6f91b4524d20567c6e56f0
 
 The full browser suite was divided into independent language runs using `TEST_LANGUAGES`. Each run also performed the shared navigation, multilingual-screen and responsive checks. A Telugu attempt exhausted temporary browser storage while recording a failure screenshot; its final successful run was performed independently after the parallel browsers closed. Test screenshots and detailed JSON logs remain in ignored `.qa/` files.
 
-Regression fixes include keeping guided dialogs in the visible workspace after confirming a step, translating new return-history entries, respecting focused controls when Enter is pressed on a reading step, reconciling the order table after a purchase return, matching receipt formats to v4.0.1, and assigning combined lessons their most advanced included level.
+Regression fixes include keeping guided dialogs in the visible workspace after confirming a step, translating new return-history entries, respecting focused controls when Enter is pressed on a reading step, reconciling the order table after a purchase return, matching receipt formats to the inspected application, and assigning combined lessons their most advanced included level.
 
 ## Changed files
 

@@ -1,6 +1,6 @@
 # Continuous guidance and feature categories
 
-This Academy-only UX update continues commit `3a38fd4d0c0fa19a6ea7fd254a219716aa3befdc`. It changes the guide interaction and library presentation. All 78 Questions, 29 Lessons, step IDs, v4.0.1 workflows, fictional demo records, ten simulator themes and original CAT artwork remain intact. No customer ShopDesk application, licensing service, production backend or historical application release is changed.
+This Academy-only UX update continues commit `3a38fd4d0c0fa19a6ea7fd254a219716aa3befdc`. It changes the guide interaction and library presentation. All 78 Questions, 29 Lessons, step IDs, existing workflows, fictional demo records, ten simulator themes and original CAT artwork remain intact. No customer ShopDesk application, licensing service, production backend or historical application release is changed. The Academy now displays v5.0.0 throughout; that version-label update preserves these behaviors.
 
 ## Continuous guidance
 
@@ -24,14 +24,14 @@ Only category bubbles appear by default. Opening a category renders its matching
 - `npm test`: 34 unit/model/library tests, including automatic advancement, stale-step rejection and legacy pending-progress migration.
 - `npm run test:browser`: every Question and Lesson in all five languages, plus existing navigation, validation, search and cleanup checks.
 - `npm run test:responsive`: seven widths (1440, 1280, 1024, 768, 430, 390 and 360px), all simulator pages/forms, multilingual mobile workflows and every exercise at 360px.
-- `npm run test:learning`: the preserved keyboard/resume/appearance suite and six v4.0.1 workflows at all seven widths, adapted to category selection and automatic advancement.
+- `npm run test:learning`: the preserved keyboard/resume/appearance suite and six transaction/settings workflows at all seven widths, adapted to category selection and automatic advancement.
 - `npm run test:ux`: category membership, native focus wrap, Escape/Back, translated popups, compact search/levels, duplicate events, one-Enter input including fast entry, failed saves, old progress, reading acknowledgement and visible mobile low-stock/sales/payment/return targets.
 
 Detailed result logs and screenshots stay in ignored `.qa/` files. Publication is checked against the resulting commit using the existing Pages deployment, exact published runtime-file comparisons and live browser regression checks. Browser viewport emulation is used; physical device certification and native app control are outside this website task.
 
 ### Validation outcome — 17 October 2026
 
-The preserved full regression reports completed successfully after the earlier session interruption: 546 browser checks (including all 107 exercises in all five languages), 386 responsive checks, 11 learning/v4.0.1 groups and 29 CAT checks. All report zero browser errors. Final verification after the fast-entry and popup focus fixes passed all 23 focused UX groups, all 34 unit tests, build/static/translation/syntax checks, and two expanded guided-workspace checks at 1440px and 360px. The preservation and sensitive-content audit passed for all changed files; temporary QA artifacts are excluded.
+The preserved full regression reports completed successfully after the earlier session interruption: 546 browser checks (including all 107 exercises in all five languages), 386 responsive checks, 11 learning/workflow groups and 29 CAT checks. All report zero browser errors. Final verification after the fast-entry and popup focus fixes passed all 23 focused UX groups, all 34 unit tests, build/static/translation/syntax checks, and two expanded guided-workspace checks at 1440px and 360px. The preservation and sensitive-content audit passed for all changed files; temporary QA artifacts are excluded.
 
 ## Changed files
 

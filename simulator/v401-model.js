@@ -1,4 +1,4 @@
-// Standalone, fictional equivalents of verified v4.0.1 business transactions.
+// Standalone, fictional equivalents of verified v5.0.0 business transactions.
 import {clone} from './model.js';
 import {DEMO_DATE} from '../data/demo-shop.js';
 const round=n=>Math.round((n+Number.EPSILON)*100)/100;

@@ -26,4 +26,4 @@ export const lessons=[
 ];
 
 lessons.push(lesson('quick-bill','Quick sales & billing',['quick-bill','quick-bill-settings']),lesson('supplier-payments','Supplier Payments',['supplier-payment','supplier-payment-history']),lesson('sales-returns','Sales Returns & Exchanges',['sales-return','sales-exchange']),lesson('purchase-returns','Purchase Returns',['purchase-return','purchase-replacement']),lesson('master-permissions','Master Device Permissions',['master-permissions']),lesson('permissions-safety','Understanding device permissions',['permission-safety']),lesson('help-updates','Help & software updates',['academy-help','software-updates']));
-for(const item of lessons){item.version='4.0.1';item.estimatedMinutes=Math.max(1,Math.ceil(item.steps.length/5));if(item.id==='lesson-master-permissions')item.role='master';item.steps.forEach((step,index)=>step.id=item.id+'-step-'+index);}
+for(const item of lessons){item.version='5.0.0';item.estimatedMinutes=Math.max(1,Math.ceil(item.steps.length/5));if(item.id==='lesson-master-permissions')item.role='master';item.steps.forEach((step,index)=>step.id=item.id+'-step-'+index);}

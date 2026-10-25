@@ -1,6 +1,6 @@
 const click=(action,label,instruction='Select {0}.')=>({action,target:action,label,instruction});
 const field=(key,label,validation={type:'text'})=>({...click('field:'+key,label,'Enter {0}, then press Enter.'),validation});
-const question=(id,feature,title,steps,extra={})=>({id,feature,title,description:'Practice verified ShopDesk v4.0.1 controls with fictional records.',difficulty:'Intermediate',startingScreen:'dashboard',keywords:[feature,'4.0.1'],completion:'You completed the workflow successfully.',steps,...extra});
+const question=(id,feature,title,steps,extra={})=>({id,feature,title,description:'Practice verified ShopDesk v5.0.0 controls with fictional records.',difficulty:'Intermediate',startingScreen:'dashboard',keywords:[feature,'5.0.0'],completion:'You completed the workflow successfully.',steps,...extra});
 const saleReturn=(exchange=false)=>[click('nav:stock-adjustments','Stock History','Open {0}.'),click('return:sale','Sales Return'),field('transaction','Original transaction',{type:'equals',value:'IKY-BILL-1000'}),field('productId','Product',{type:'equals',value:'p11'}),field('quantity','Return quantity',{type:'range',min:1,max:1}),field('condition','Condition',{type:'equals',value:'sellable'}),...(exchange?[field('exchange','Exchange for replacement products',{type:'equals',value:'true'}),field('replacementProduct','Replacement product',{type:'equals',value:'p18'}),field('replacementQuantity','Replacement quantity',{type:'range',min:1,max:1})]:[]),field('reason','Return reason'),click('save:sale-return','Confirm return transaction')];
 const purchaseReturn=(settlement='balance')=>[click('nav:stock-adjustments','Stock History','Open {0}.'),click('return:purchase','Purchase Return'),field('transaction','Original transaction',{type:'equals',value:'IKY-PO-1001'}),field('productId','Product',{type:'equals',value:'p1'}),field('quantity','Return quantity',{type:'range',min:1,max:1}),field('settlement','Settlement',{type:'equals',value:settlement}),field('reason','Return reason'),click('save:purchase-return','Confirm return transaction')];
 export const v401Questions=[
@@ -15,7 +15,7 @@ export const v401Questions=[
  question('master-permissions','permissions','How does a Master Device manage regular-device access?',[click('nav:settings','Settings','Open {0}.'),click('master:open','Master Command'),click('master:refresh','Refresh devices'),field('device','Regular device',{type:'equals',value:'training-till'}),field('permission-expenses','expenses',{type:'equals',value:'view'}),click('save:permissions','Save permissions')],{role:'master',difficulty:'Advanced'}),
  question('permission-safety','permissions','Why are some controls hidden or view only?',[click('nav:settings','Settings','Open {0}.'),{...click('read:permissions','Master Device Permissions','Read the permission guidance, then choose Next Step.'),explanation:'Hidden removes a section. View Only allows reading. Full Access / Edit permits changes. Ask an authorized Master Device; Academy cannot change real permissions.'}]),
  question('academy-help','help','Where is ShopDesk Academy in the application?',[click('nav:help','Help','Open {0}.'),click('help:academy','Take Me There →')],{difficulty:'Beginner'}),
- question('software-updates','updates','How do I check the installed ShopDesk version?',[click('nav:updates','Check for Updates','Open {0}.'),click('updates:check','Check for Updates'),{...click('read:updates','Installed version','Read the version guidance, then choose Next Step.'),explanation:'This training check uses a fixed v4.0.1 example. Open Check for Updates in the installed app for real update checks.'}],{difficulty:'Beginner'})
+ question('software-updates','updates','How do I check the installed ShopDesk version?',[click('nav:updates','Check for Updates','Open {0}.'),click('updates:check','Check for Updates'),{...click('read:updates','Installed version','Read the version guidance, then choose Next Step.'),explanation:'This training check uses a fixed v5.0.0 example. Open Check for Updates in the installed app for real update checks.'}],{difficulty:'Beginner'})
 ];
 export function prepareCurriculum(items,products){
  for(const item of items){
@@ -23,7 +23,7 @@ export function prepareCurriculum(items,products){
   let page=item.startingScreen??'dashboard';
   for(const [index,step] of item.steps.entries()){if(step.resetBefore)page='dashboard';step.page=page;step.expectedAction=step.action;step.targetId=step.target;step.id=item.id+'-step-'+index;if(step.action.startsWith('nav:'))page=step.action.slice(4);if(['dashboard:low-stock','shell:search'].includes(step.action))page='inventory';if(step.action.startsWith('supplier:orders'))page='shop-orders';step.rawLabel??=products.some(p=>p.name===step.label);}
   for(const step of item.steps)if(step.label==='Save sales & update stock')step.label='Save Sale & Update Stock';
-  item.version='4.0.1';item.difficulty??='Beginner';item.estimatedMinutes=Math.max(1,Math.ceil(item.steps.length/5));
+  item.version='5.0.0';item.difficulty??='Beginner';item.estimatedMinutes=Math.max(1,Math.ceil(item.steps.length/5));
  }
  return items;
 }

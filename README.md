@@ -2,7 +2,7 @@
 
 Learn ShopDesk by using it. A standalone, buildless training website for GitHub Pages.
 
-The Academy targets verified ShopDesk v4.0.1 with 78 searchable questions, 29 interactive lessons and 28 feature areas. It retains all previous question and lesson IDs. See [the version reference and scope](docs/V401-REFERENCE.md) for the official release evidence and control mapping. Shop Orders has 21 focused workflows for multiple products, separate suppliers, partial deliveries, cumulative receiving, payments, balances, low-stock recommendations, and order history.
+ShopDesk Academy v5.0.0 contains 78 searchable questions, 29 interactive lessons and 28 feature areas. This version-label update retains the existing workflows and all previous question and lesson IDs. See [the version reference and scope](docs/V401-REFERENCE.md) for the original source inspection and control mapping. Shop Orders has 21 focused workflows for multiple products, separate suppliers, partial deliveries, cumulative receiving, payments, balances, low-stock recommendations, and order history.
 
 ## Run locally
 
@@ -68,9 +68,9 @@ Add a record to `data/questions/catalog.js` with a unique ID, feature, title, ke
 
 Every interaction step must validate an actual simulator action before it advances. Reading steps use an explicit inline acknowledgement. Never advance through a required action without validation.
 
-## ShopDesk v4.0.1 training
+## ShopDesk v5.0.0 training
 
-The replica follows the verified v4.0.1 navigation order and Store icon, 272 px sidebar, 72 px header, category cards and inventory table, inline Daily Sales quantities, customer/contact history, credit and repayments, suppliers, stock history, expenses, capital, notes, customer orders, multi-product supplier orders, service jobs, Reports, receipt/barcode previews, and the source’s Settings sections. Ten simulator themes are scoped independently from the Academy’s light/dark appearance. Retail hides Services and PC Gaming; the business preview selector exposes the applicable source navigation.
+The replica preserves the inspected navigation order and Store icon, 272 px sidebar, 72 px header, category cards and inventory table, inline Daily Sales quantities, customer/contact history, credit and repayments, suppliers, stock history, expenses, capital, notes, customer orders, multi-product supplier orders, service jobs, Reports, receipt/barcode previews, and the source’s Settings sections. Ten simulator themes are scoped independently from the Academy’s light/dark appearance. Retail hides Services and PC Gaming; the business preview selector exposes the applicable source navigation.
 
 The canonical fictional grocery shop is **IKYZEN**, owned by **RENTAROU_BOY**: 48 products, 20 categories, eight customers, five suppliers, 37 sales, credit repayments, three supplier orders, grocery service jobs, expenses, investments, and reminders. Dates are fixed so resetting produces identical data rather than a moving baseline. Contact details are fictional.
 

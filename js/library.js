@@ -3,7 +3,7 @@ import {featureLabel} from '../data/questions/catalog.js';
 import {t,html,languages,getLanguage} from './i18n.js';
 import {icon} from '../simulator/ui.js';
 
-// Parent areas follow the verified v4.0.1 navigation, not a second curriculum.
+// Parent areas follow the verified v5.0.0 navigation, not a second curriculum.
 const parents={products:'inventory',categories:'inventory',inventory:'inventory',bills:'sales-history','supplier-payments':'suppliers',returns:'stock-adjustments','purchase-returns':'stock-adjustments',permissions:'settings',backup:'settings',import:'settings'};
 export const categoryId=item=>parents[item.feature]??item.feature;
 export function belongsToCategory(item,id){
